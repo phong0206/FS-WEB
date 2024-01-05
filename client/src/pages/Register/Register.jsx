@@ -69,7 +69,7 @@ export default function SignUp() {
         .required('Last name is required'),
     }),
     onSubmit: async (values) => {
-      console.log( values.birthDay);
+
       //handle request api register
       // const res = await api.register({
       //   email: values.email,
@@ -106,7 +106,6 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  autoFocus
                   name="username"
                   required
                   fullWidth
@@ -183,23 +182,19 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']}>
                     <DatePicker
+                      format="DD/MM/YYYY"
                       label="Birth Day"
-                      value={formik.values.birthDay}
-                      onChange={(date) => formik.setFieldValue('birthDay', date)}
+                      onChange={(date) => formik.setFieldValue('birthDay', date.toDate())}
                       onBlur={() => formik.setFieldTouched('birthDay', true)}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          fullWidth
-                          variant="outlined"
-                          margin="normal"
-                          error={Boolean(formik.touched.birthDay && formik.errors.birthDay)}
-                          helperText={formik.touched.birthDay && formik.errors.birthDay}
-                          value={formik.values.birthDay.format('DD/MM/YYYY')}
-                        />
-                      )}
+                      fullWidth
+                      variant="outlined"
+                      error={Boolean(formik.touched.birthDay && formik.errors.birthDay)}
+                      helperText={formik.touched.birthDay && formik.errors.birthDay}
+                      value={formik.values.birthDay}
                     />
+                  </DemoContainer>
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
@@ -214,7 +209,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="login" variant="body2">
+                <Link href="" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
