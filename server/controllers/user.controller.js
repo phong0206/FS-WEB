@@ -18,14 +18,9 @@ const register = async (req, res) => {
     const checkEmailDuplicate = await userService.findOneByEmail({
       email: data.email,
     });
-    const checkUsernameDuplicate = await userService.findOneByUsername({
-      username: data.username,
-    });
+
     if (checkEmailDuplicate)
       return apiResponse.notFoundResponse(res, "Email already exists!");
-
-    if (checkUsernameDuplicate)
-      return apiResponse.notFoundResponse(res, "Username already exists!");
 
     await userService.create(newUser);
 
