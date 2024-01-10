@@ -1,21 +1,22 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const mongoose = require("mongoose");
+const { connectDatabase } = require("./config/mongo.config");
+const routes = require("./routes/route");
 
 dotenv.config();
 
-console.log(process.env);
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => console.log("Connect success"))
-  .catch((err) => console.log(err));
+connectDatabase();
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const PORT = process.env.PORT | 5050;
+app.use("/api/v1", routes);
+
+const PORT = process.env.PORT | 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
