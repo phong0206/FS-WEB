@@ -25,6 +25,10 @@ const userSchema = new Schema(
       type: String,
       require: [true, "Vui lòng nhập mật khẩu của bạn"],
     },
+    role: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

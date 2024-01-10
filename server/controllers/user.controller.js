@@ -1,26 +1,37 @@
 const { hashData } = require("../utils/password.util");
 const { userService } = require("../services/services");
-const { successResponse } = require("../utils/apiResponse");
+const apiResponse = require("../utils/apiResponse");
 
 const register = async (req, res) => {
+  const data = { ...req.body };
+  const password = data.password;
+  const encryptPass = hashData(password);
+  const newUser = {
+    username: data.username,
+    phonenumber: data.phonenumber,
+    birthday: data.birthday,
+    gender: data.gender,
+    email: data.email,
+    password: encryptPass,
+  };
   try {
-    const data = { ...req.body };
-    const password = data.password;
-    const encryptPass = hashData(password);
-    const newUser = {
-      username: data.username,
-      phonenumber: data.phonenumber,
-      birthday: data.birthday,
-      gender: data.gender,
+    const checkEmailDuplicate = await userService.findOneByEmail({
       email: data.email,
-      password: encryptPass,
-    };
+    });
+    const checkUsernameDuplicate = await userService.findOneByUsername({
+      username: data.username,
+    });
+    if (checkEmailDuplicate)
+      return apiResponse.notFoundResponse(res, "Email already exists!");
 
-    const user = await userService.create(newUser);
+    if (checkUsernameDuplicate)
+      return apiResponse.notFoundResponse(res, "Username already exists!");
 
-    return successResponse(res, "Đăng ký thành công");
+    await userService.create(newUser);
+
+    return apiResponse.successResponse(res, "Đăng ký thành công");
   } catch (error) {
-    return errorResponse(res, error);
+    return apiResponse.errorResponse(res, error);
   }
 };
 
