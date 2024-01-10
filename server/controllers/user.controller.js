@@ -1,5 +1,6 @@
 const { hashData } = require("../utils/password.util");
 const { userService } = require("../services/services");
+const { successResponse } = require("../utils/apiResponse");
 
 const register = async (req, res) => {
   try {
@@ -17,9 +18,9 @@ const register = async (req, res) => {
 
     const user = await userService.create(newUser);
 
-    return res.status(200).json(user);
+    return successResponse(res, "Đăng ký thành công");
   } catch (error) {
-    return res.status(500).json({ error: error });
+    return errorResponse(res, error);
   }
 };
 
