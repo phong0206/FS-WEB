@@ -11,11 +11,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-
+import { useTheme } from '@mui/system';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,10 +30,9 @@ function Copyright(props) {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
-
 const  Login: React.FC = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
@@ -60,15 +58,29 @@ const  Login: React.FC = () => {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 16,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            padding: 4,  
+            boxShadow: '3',  
+            borderRadius: 1,
+            width: '25%',
+            marginInline: 'auto',
+            [theme.breakpoints.down('lg')]: {
+            width: '65%',
+            marginTop: 40,
+            },  
+            [theme.breakpoints.down('md')]: {
+            width: '65%',
+            marginTop: 30,
+            },
+            [theme.breakpoints.down('sm')]: {
+            width: '85%',
+            marginTop: 15,
+            },
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -115,9 +127,9 @@ const  Login: React.FC = () => {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
-            <Grid container>
+            <Grid container direction="column">
               <Grid item xs>
-                <Link href="forgot" variant="body2">
+                <Link href="forgot-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
@@ -128,10 +140,9 @@ const  Login: React.FC = () => {
               </Grid>
             </Grid>
           </Box>
+          <Copyright sx={{ mt: 8, mb: 4 }} />
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+        
   );
 }
 export default Login;
