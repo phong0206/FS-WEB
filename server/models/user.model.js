@@ -38,4 +38,6 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+userSchema.statics.protectedFields = ["_id", "__v"];
+
 module.exports = mongoose.model("users", userSchema);
