@@ -25,9 +25,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { makeStyles } from '@mui/system';
+import { makeStyles, createStyles } from '@mui/styles';
 import { useTheme } from '@mui/system';
-
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -40,10 +39,10 @@ function Copyright(props) {
     </Typography>
   );
 }
-
+ 
  const  Register = () => {
   const theme = useTheme();
-  const classes = useStyles(); 
+  // const classes = useStyles(); 
 
   const navigate = useNavigate();
   const formik = useFormik({
@@ -81,13 +80,16 @@ function Copyright(props) {
       //   confirmPassword: values.confirmPassword,
       // });
 
+
       navigate('/login');
     },
   });
 
   return (
 
-    <Box sx = {{ marginTop: 4,
+    <Box
+    // className={classes.box}
+     sx = {{ marginTop: 4,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -108,7 +110,8 @@ function Copyright(props) {
     [theme.breakpoints.down('sm')]: {
       width: '85%',
       marginTop: 5,
-    },}}>
+    },}}
+    >
           <Avatar sx={{ m: 0, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -240,33 +243,31 @@ function Copyright(props) {
         
   );
 }
-
-
-const useStyles = makeStyles((theme) => ({
-  box: {
-    marginTop: 4,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: 4,
-    boxShadow: '3', // Correcting the boxShadow value
-    borderRadius: 1,
-    width: '30%',
-    height: '100%',
-    marginInline: 'auto',
-    [theme.breakpoints.down('lg')]: {
-      width: '65%',
-      marginTop: 40,
-    },
-    [theme.breakpoints.down('md')]: {
-      width: '65%',
-      marginTop: 25,
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '85%',
-      marginTop: 5,
-    },
-  },
-}));
+// const useStyles = (theme) => makeStyles((theme) => ({
+//   box: {
+//     marginTop: 40,
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     padding: 4,
+//     boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.1)', // Example boxShadow value
+//     borderRadius: 1,
+//     width: '30%',
+//     height: '100%',
+//     marginInline: 'auto',
+//     [theme.breakpoints.down('lg')]: {
+//       width: '65%',
+//       marginTop: 40,
+//     },
+//     [theme.breakpoints.down('md')]: {
+//       width: '65%',
+//       marginTop: 25,
+//     },
+//     [theme.breakpoints.down('sm')]: {
+//       width: '85%',
+//       marginTop: 5,
+//     },
+//   },
+// }));
 
 export default Register;
