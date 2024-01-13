@@ -3,7 +3,17 @@ const apiResponse = require("../utils/apiResponse");
 
 exports.register = (req, res, next) => {
   const schema = Joi.object({
-    username: Joi.string().min(3).max(30).required(),
+    username: Joi.string()
+      .regex(/^[a-zA-ZÀ-ỹ ]+$/)
+      .custom((value, helpers) => {
+        if (/[^a-zA-ZÀ-ỹ ]/.test(value)) {
+          return helpers.message("Tên không được chứa ký tự đặc biệt");
+        }
+        return value;
+      })
+      .min(3)
+      .max(30)
+      .required(),
     phonenumber: Joi.string().pattern(new RegExp("^[0-9]{10,11}$")).required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
