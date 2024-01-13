@@ -1,27 +1,38 @@
 const { hashData } = require("../utils/password.util");
 const { userService } = require("../services/services");
+const apiResponse = require("../utils/apiResponse");
 
 const register = async (req, res) => {
+  const data = { ...req.body };
+  const password = data.password;
+  const encryptPass = hashData(password);
+  const newUser = {
+    username: data.username,
+    phonenumber: data.phonenumber,
+    birthday: data.birthday,
+    gender: data.gender,
+    email: data.email,
+    password: encryptPass,
+  };
   try {
-    const data = { ...req.body };
-    const password = data.password;
-    const encryptPass = hashData(password);
-    const newUser = {
-      username: data.username,
-      phonenumber: data.phonenumber,
-      birthday: data.birthday,
-      gender: data.gender,
+    const checkEmailDuplicate = await userService.findOneByEmail({
       email: data.email,
-      password: encryptPass,
-    };
+    });
 
-    const user = await userService.create(newUser);
+    if (checkEmailDuplicate)
+      return apiResponse.notFoundResponse(res, "Email already exists!");
 
-    return res.status(200).json(user);
+    await userService.create(newUser);
+
+    return apiResponse.successResponse(res, "Đăng ký thành công");
   } catch (error) {
-    return res.status(500).json({ error: error });
+    return apiResponse.errorResponse(res, error);
   }
 };
+
+const login = async (req, res) => { 
+  
+}
 
 module.exports = {
   register,
